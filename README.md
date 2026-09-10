@@ -42,7 +42,7 @@ This project applies unsupervised machine learning to the Customer Personality d
 
 - **K-Means** as the primary segmentation model, chosen for producing clean, interpretable customer personas
 - **DBSCAN** used separately as a secondary check to flag customers who don't fit the main groups
-- Compared clustering directly on the 26 scaled features vs. clustering after PCA compression to 16 components — clustering on the original scaled features preserved more of the true distance structure and produced better-separated groups
+- Compared clustering directly on the 26 scaled features vs. clustering after PCA compression to 16 components — clustering with PCA produced poor, overlapping groups, while clustering on the original scaled features preserved more of the true distance structure and produced better-separated segments
 
 [![Clustering Results Without PCA](image/kmean_without_PCA.jpg)](image/kmean_without_PCA.jpg)
 
@@ -60,12 +60,15 @@ K-Means with **k = 3** produced three well-balanced, well-separated segments (63
 
 ## DBSCAN — Outlier Detection
 
-DBSCAN was applied as a second lens to surface customers who don't fit neatly into the main segments:
+K-Means groups every customer into a segment, even ones that don't really resemble their neighbors. DBSCAN was applied as a second lens specifically to catch these edge cases — customers whose behavior is dense and consistent get grouped, while anyone who doesn't fit any dense region is flagged as noise instead of forced into a segment.
 
 [![DBSCAN Results](image/DBSCAN.jpg)](image/DBSCAN.jpg)
 
-- Detected 2 dense clusters and 148 outlier customers
-- Used for insight, not as a replacement for K-Means — outliers can be reviewed for unusual, risky, or high-value behavior
+- Detected 2 dense behavioral clusters and 148 outlier customers
+- These 148 outliers are not random noise — they're customers whose combination of income, spending, and engagement doesn't match any common pattern in the data, which is exactly why they get missed inside a fixed K-Means segment
+- This matters for the business because outliers cut both ways: some may be very high-value customers with unique buying habits worth a dedicated approach, while others may show erratic or risky behavior worth a closer look
+- Practically, this list becomes a manual-review queue — instead of applying one of the three standard segment strategies, the marketing team can look at these customers individually before deciding how to treat them
+- DBSCAN is not a replacement for K-Means here; it doesn't produce clean, business-ready personas the way K-Means does, but it adds a safety net the main segmentation alone can't provide
 
 ## Key Insights
 
@@ -73,6 +76,4 @@ DBSCAN was applied as a second lens to surface customers who don't fit neatly in
 - Premium customers respond to campaigns at nearly 2x the rate of other segments
 - Budget-conscious customers have larger families and visit the website more often, despite lower spending
 - DBSCAN's outlier group is a useful watchlist for customers who behave atypically
-
-
 
