@@ -13,8 +13,6 @@
 - [DBSCAN — Outlier Detection](#dbscan--outlier-detection)
 - [Key Insights](#key-insights)
 - [Tech Stack](#tech-stack)
-- [How to Run](#how-to-run)
-- [Author](#author)
 
 ---
 
