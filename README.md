@@ -76,12 +76,4 @@ DBSCAN was applied as a second lens to surface customers who don't fit neatly in
 - DBSCAN's outlier group is a useful watchlist for customers who behave atypically
 
 
-## How to Run
-
-```bash
-git clone https://github.com/yossefhaytham/Customer_Segmentation.git
-cd Customer_Segmentation
-pip install -r requirements.txt
-jupyter notebook customer_segmentation.ipynb
-```
 
